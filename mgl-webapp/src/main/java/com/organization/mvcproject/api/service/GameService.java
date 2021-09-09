@@ -1,13 +1,15 @@
-package com.organization.mvcproject.service;
+package com.organization.mvcproject.api.service;
 
 import java.util.List;
 
-import com.organization.mvcproject.model.Game;
+import com.organization.mvcproject.model.GameImp;
 
 public interface GameService {
 
-	List<Game> retrieveAllGames();
+	List<GameImp> retrieveAllGames();
 
-	Game saveGame(Game game);
+	GameImp saveGame(GameImp game);
+
+	Boolean deleteGame(Long id);
 
 }

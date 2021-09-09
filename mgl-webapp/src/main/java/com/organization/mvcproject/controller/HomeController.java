@@ -1,13 +1,14 @@
 package com.organization.mvcproject.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.organization.mvcproject.model.Game;
-import com.organization.mvcproject.model.Review;
+import com.organization.mvcproject.model.GameImp;
+import com.organization.mvcproject.model.ReviewImp;
 
 @Controller
 public class HomeController {
@@ -23,18 +24,18 @@ public class HomeController {
         
         return ret;
     }
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@GetMapping(value = "/")
 	public String home() {
 		return "index";
 	}
 
-	@RequestMapping(value = "/review", method = RequestMethod.GET)
+	@GetMapping(value = "/review")
 	public ModelAndView review() {
-		return new ModelAndView("review", "command", new Review());
+		return new ModelAndView("review", "command", new ReviewImp());
 	}
 
-	@RequestMapping(value = "/addReview", method = RequestMethod.POST)
-	public ModelAndView addReview(Review review, ModelMap model) {
+	@PostMapping(value = "/addReview")
+	public ModelAndView addReview(ReviewImp review, ModelMap model) {
 		if(review.getAuthor().equals("")) {
 			review.setAuthor("anonymous");
 		}
@@ -42,9 +43,9 @@ public class HomeController {
 	}
 
 	
-	@RequestMapping(value = "/games", method = RequestMethod.GET)
+	@GetMapping(value = "/games")
 	public ModelAndView game() {
-		return new ModelAndView("games", "command", new Game());
+		return new ModelAndView("games", "command", new GameImp());
 	}
 	
 	private String testingMethod() {

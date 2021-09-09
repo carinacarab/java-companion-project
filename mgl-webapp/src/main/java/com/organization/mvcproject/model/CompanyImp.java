@@ -1,16 +1,15 @@
 package com.organization.mvcproject.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import com.organization.mvcproject.api.model.Company;
 
-public class Company {
+public class CompanyImp implements Company{
 
 	private Long id;
 	private String name;
 	
-	private List<Game> gamesMade;
+	private List<GameImp> gamesMade;
 
 	public Long getId() {
 		return id;
@@ -28,11 +27,11 @@ public class Company {
 		this.name = name;
 	}
 
-	public List<Game> getGamesMade() {
+	public List<GameImp> getGamesMade() {
 		return gamesMade;
 	}
 
-	public void setGamesMade(List<Game> gamesMade) {
+	public void setGamesMade(List<GameImp> gamesMade) {
 		this.gamesMade = gamesMade;
 	}
 }

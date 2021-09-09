@@ -21,6 +21,12 @@ angular.module('MGLApp').controller('GameController',
 				self.fetchAllGames();
 				});
 			}
+			
+			self.updateGame = function() {
+				return GameService.updateGame(self.game).then( function() {
+					self.fetchAllGames();
+				});
+			}
 
 			self.fetchAllGames();
 		} ]);
