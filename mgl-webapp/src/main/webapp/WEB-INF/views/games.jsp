@@ -4,8 +4,8 @@
     <html>
 
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
-        <script src="resources/static/js/app.js" /></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js" ></script>
+        <script src="resources/static/js/app.js" ></script>
         <script src="resources/static/js/game.service.js"></script>
         <script src="resources/static/js/game.controller.js"></script>
 
@@ -29,21 +29,21 @@
     <body ng-app="MGLApp" class="ng-cloak">
         <mgl:myNav/>
         <br>
-        <div class="container" ng-controller="GameController as MGL_T1_ctrl">
+        <div class="container" ng-controller="GameController as gameControl">
             <div class="panel panel-default">
-                <div class="panel-heading text-light"><span class="lead">Game Registration Form </span></div>
+                <div class="panel-heading text-light"><span class="lead">Game Registration Form</span></div>
                 <div class="formcontainer">
-                    <form ng-submit="MGL_T1_ctrl.addGame()" name="gameForm" class="form-horizontal">
-                        <input type="hidden" ng-model="MGL_T1_ctrl.game.id" />
+                    <form ng-if="!gameControl.game.id" name="gameForm" class="form-horizontal" novalidate>
+                        <input type="hidden" ng-model="gameControl.game.id" />
                         <div class="row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-12" >
                                 <label class="col-md-2 control-lable text-light" for="name">Name*</label>
                                 <div class="col-md-7">
-                                    <input type="text" ng-model="MGL_T1_ctrl.game.name" id="name" class="name form-control input-sm" placeholder="Enter the name of the new game [required]" required ng-minlength="3" />
-                                    <div class="has-error" ng-show="gameForm.$dirty">
-                                        <span ng-show="gameForm.game_name.$error.required">This is a required field</span>
-                                        <span ng-show="gameForm.game_name.$error.minlength">Minimum length required is 3</span>
-                                        <span ng-show="gameForm.game_name.$invalid">This field is invalid </span>
+                                    <input type="text" ng-model="gameControl.game.name" id="name" class="name form-control input-sm" placeholder= "Enter the name of the new game [required]" ng-minlength="3" required  >
+                                    <div ng-show="gameForm.$dirty || gameForm.$touched">
+                                        <div ng-show="gameForm.game.name.$error.required">This is a required field</div>
+                                        <div ng-show="gameForm.game.name.$error.minlength" >Minimum length required is 3</div>
+                                        <div ng-show="gameForm.game.name.$error.invalid" >This field is invalid</div>
                                     </div>
                                 </div>
                             </div>
@@ -54,14 +54,48 @@
                             <div class="form-group col-md-12">
                                 <label class="col-md-2 control-lable text-light" for="genre">Game Genre</label>
                                 <div class="col-md-7">
-                                    <input type="text" ng-model="MGL_T1_ctrl.game.genre" id="genre" class="form-control input-sm" placeholder="Enter the genre of the new game" />
+                                    <input type="text" ng-model="gameControl.game.genre" id="genre" class="form-control input-sm" placeholder="Enter the genre of the new game" />
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-actions floatRight">
-                                <input type="submit" value="Add" class="btn btn-primary btn-sm">
+                            	<button ng-click="gameControl.addGame()" type="submit" class="btn btn-primary btn-primary">Add</button>
+                                <button data-ng-if ="gameControl.game" type="reset" class="btn btn-secondary btn-default">Clear Fields</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <form ng-if="gameControl.game.id" name="gameUpdateForm" class="form-horizontal" novalidate>
+                        <input type="hidden" ng-model="gameControl.game.id" />
+                        <div class="row">
+                            <div class="form-group col-md-12" >
+                                <label class="col-md-2 control-lable text-light" for="name">Name*</label>
+                                <div class="col-md-7">
+                                    <input type="text" ng-model="gameControl.game.name" id="name" class="name form-control input-sm" placeholder= "Enter the name of the new game [required]" ng-minlength="3" required="" >
+                                    <div ng-show="gameUpdateForm.$dirty || gameUpdateForm.$touched">
+                                        <div ng-show="gameUpdateForm.game.name.$error.required">This is a required field</div>
+                                        <div ng-show="gameUpdateForm.game.name.$error.minlength" >Minimum length required is 3</div>
+                                        <div ng-show="gameUpdateForm.game.name.$error.invalid" >This field is invalid</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label class="col-md-2 control-lable text-light" for="genre">Game Genre</label>
+                                <div class="col-md-7">
+                                    <input type="text" ng-model="gameControl.game.genre" id="genre" class="form-control input-sm" placeholder="Enter the genre of the new game" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-actions floatRight">
+                            	<button ng-click="gameControl.updateGame()" class="btn btn-primary btn-primary">Update</button>
                             </div>
                         </div>
                     </form>
@@ -75,18 +109,25 @@
                         <thead>
                             <tr>
                                 <th>Game Name</th>
-                                <th>Game Genre</th>
+                                <th>Game Genre</th>  
                                 <th width="20%"></th>
+                                <th width="20%"></th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="currentGame in MGL_T1_ctrl.games">
+                            <tr ng-repeat="currentGame in gameControl.games">
                                 <td><span ng-bind="currentGame.name"></span></td>
                                 <td><span ng-bind="currentGame.genre"></span></td>
-                                <td>
-                                </td>
+                                <td><button data-ng-click="gameControl.loadGame(currentGame)" class="btn btn-secondary btn-info">Select</button></td>
+                                <td><button data-ng-click="gameControl.deleteGame(currentGame)" class="btn btn-secondary btn-danger">Delete</button></td>
+                                
                             </tr>
                         </tbody>
+                        <tfoot>
+                        	
+                        </tfoot>
+                     
                     </table>
                 </div>
             </div>

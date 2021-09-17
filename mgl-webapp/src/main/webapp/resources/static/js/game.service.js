@@ -6,7 +6,9 @@ angular.module('MGLApp').factory('GameService', ['$http', function($http) {
 
 		var factory = {
 			fetchAllGames : fetchAllGames,
-			createGame : createGame
+			createGame : createGame,
+			updateGame : updateGame,
+			deleteGame : deleteGame
 		};
 
 		return factory;
@@ -19,7 +21,7 @@ angular.module('MGLApp').factory('GameService', ['$http', function($http) {
 		}
 
 		function createGame(game) {
-			return $http.post(REST_SERVICE_URI, game).then(function(response) {
+			return $http.post(REST_SERVICE_URI, game).then(function(response) {			
 					return response.data;
 				}
 			);
@@ -28,6 +30,12 @@ angular.module('MGLApp').factory('GameService', ['$http', function($http) {
 		function updateGame(game) {
 			return $http.put(REST_SERVICE_URI, game).then(function(response) {
 				return response.data;
+			});
+		}
+		
+		function deleteGame(gameId) {
+			return $http.delete(REST_SERVICE_URI + gameId).then(function(response) {
+					return response.data;
 				}
 			);
 		}

@@ -52,13 +52,13 @@ public class GameMockDAOImpl implements GameMockDAO {
 	@Override
 	public GameImp saveGame(GameImp game) {
 		if(game.getId() != null) {
-			GameImp foundGame = getGame(game.getId());
+			GameImp foundGame = getGameById(game.getId());
 			if(foundGame != null) {
 				//this stream uses .map() to replace existing game with foundGame's id with foundGame
 				games = games.stream()
-							.map(g -> g.getId().equals(foundGame.getId()) ? foundGame : g)
+							.map(g -> g.getId().equals(game.getId()) ? (GameImp) game : g)
 							.collect(Collectors.toList());
-				return foundGame;
+				return game;
 			} else {
 				//if foundGame is null, this means that this ID we have does not correspond
 				//to an existing game in the games list, so we have to simply add it to games
@@ -75,12 +75,26 @@ public class GameMockDAOImpl implements GameMockDAO {
 	}
 
 	@Override
-	public GameImp getGame(Long id) {
+	public GameImp getGameById(Long id) {
 		return games.stream()
 				.filter(g -> id.equals(g.getId()))
 				.findAny()
 				.orElse(null);
 	}
+	
+//	public GameImp getGameByGenre(String genre) {
+//		return games.stream()
+//				.filter(g -> genre.equalsIgnoreCase(g.getGenre()))
+//				.findAny()
+//				.orElse(null);
+//	}
+//	
+//	public GameImp getGameByName(String name) {
+//		return games.stream()
+//				.filter(g -> name.equalsIgnoreCase(g.getName()))
+//				.findAny()
+//				.orElse(null);
+//	}
 
 	@Override
 	public Boolean deleteGame(Long id) {

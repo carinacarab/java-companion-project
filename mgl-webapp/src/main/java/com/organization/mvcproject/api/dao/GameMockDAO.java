@@ -10,7 +10,7 @@ public interface GameMockDAO {
 
 	public GameImp saveGame(GameImp game);
 	
-	public GameImp getGame(Long id);
+	public GameImp getGameById(Long id);
 	
 	public Boolean deleteGame(Long id);
 	
